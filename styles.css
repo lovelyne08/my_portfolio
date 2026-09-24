@@ -178,3 +178,17 @@ footer{
 .socials a:hover{
     color:#fff;          /* White on hover */
 }
+.skills-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:15px;
+    margin-top:20px;
+}
+
+.skills-grid span{
+    background:#dbeafe;
+    color:#1d4ed8;
+    padding:10px 18px;
+    border-radius:25px;
+    font-weight:600;
+}
