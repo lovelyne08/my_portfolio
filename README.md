@@ -1,6 +1,6 @@
 # Lovelyne Mitchel Portfolio
 
-A responsive personal portfolio website built using HTML5 and CSS for the KCA University Web Technologies assignment.
+A responsive personal portfolio website built using HTML5 and CSS.
 
 ## Features
 
@@ -8,7 +8,7 @@ A responsive personal portfolio website built using HTML5 and CSS for the KCA Un
 - Hero section with professional profile
 - About Me section
 - Projects page (Coming Soon)
-- Contact section with GitHub, email and phone
+- Contact section with GitHub, LinkedIn, email and phone
 - Clean and modern UI
 
 ## Technologies Used
@@ -18,10 +18,10 @@ A responsive personal portfolio website built using HTML5 and CSS for the KCA Un
 
 ## Live Links
 
-- GitHub Repository: https://github.com/Lovelyne08/my-portfolio
-- GitHub Pages: (Paste after deployment)
-- Vercel: (Paste after deployment)
+- GitHub Repository: https://github.com/Lovelyne08/my_portfolio
+- GitHub Pages: https://lovelyne08.github.io/my_portfolio/
+- Vercel: https://my-portfolio-self-ten-15.vercel.app
 
 ## Author
 
-**Lovelyne Mitchel**
+Lovelyne Mitchel
