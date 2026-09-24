@@ -161,3 +161,20 @@ footer{
     line-height:1.8;
     margin-bottom:30px;
 }
+
+.socials{
+    margin-top:20px;
+    display:flex;
+    gap:20px;
+}
+
+.socials a{
+    color:#000;          /* Black */
+    text-decoration:none;
+    font-weight:600;
+    transition:.3s;
+}
+
+.socials a:hover{
+    color:#fff;          /* White on hover */
+}
