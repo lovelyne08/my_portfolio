@@ -1,129 +1,162 @@
-// Filter Projects
-function filterProjects(category) {
-  const projects = document.querySelectorAll(".project-card");
+// ================================
+// PROJECT FILTER
+// ================================
 
-  projects.forEach(project => {
-    if (category === "all") {
-      project.style.display = "block";
-    } else if (project.dataset.category === category) {
-      project.style.display = "block";
-    } else {
-      project.style.display = "none";
-    }
-  });
+function filterProjects(category) {
+    const projects = document.querySelectorAll(".project-card");
+
+    projects.forEach(function (project) {
+        if (category === "all" || project.dataset.category === category) {
+            project.style.display = "block";
+        } else {
+            project.style.display = "none";
+        }
+    });
 }
 
-// Contact Form Validation
+
+// ================================
+// CONTACT FORM VALIDATION
+// ================================
+
 const form = document.getElementById("contactForm");
 const formMessage = document.getElementById("formMessage");
 
 if (form) {
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
 
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const message = document.getElementById("message").value.trim();
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const message = document.getElementById("message").value.trim();
 
-    if (name === "" || email === "" || message === "") {
-      formMessage.style.color = "#ef4444";
-      formMessage.textContent = "Please fill in all fields.";
-      return;
-    }
+        if (name === "" || email === "" || message === "") {
+            formMessage.style.color = "#ef4444";
+            formMessage.textContent = "Please fill in all fields.";
+            return;
+        }
 
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!emailPattern.test(email)) {
-      formMessage.style.color = "#ef4444";
-      formMessage.textContent = "Please enter a valid email address.";
-      return;
-    }
+        if (!emailPattern.test(email)) {
+            formMessage.style.color = "#ef4444";
+            formMessage.textContent = "Please enter a valid email address.";
+            return;
+        }
 
-    formMessage.style.color = "#22c55e";
-    formMessage.textContent = "Message sent successfully!";
+        formMessage.style.color = "#22c55e";
+        formMessage.textContent = "Message sent successfully!";
 
-    form.reset();
-  });
+        form.reset();
+    });
 }
 
-// GitHub API - Live Projects
+
+// ================================
+// GITHUB LIVE API
+// ================================
+
+// ================================
+// GITHUB LIVE API
+// ================================
 
 const githubProjects = document.getElementById("githubProjects");
 
 if (githubProjects) {
 
-  fetch("https://api.github.com/users/Lovelyne08/repos")
-    .then(response => {
+    // Show loading message
+    githubProjects.innerHTML =
+        '<p id="githubLoading">Loading GitHub projects...</p>';
 
-      if (!response.ok) {
-        throw new Error("Unable to fetch GitHub projects.");
-      }
+    fetch("https://api.github.com/users/Lovelyne08/repos")
+        .then(function (response) {
 
-      return response.json();
-    })
+            if (!response.ok) {
+                throw new Error(
+                    "GitHub API returned status " + response.status
+                );
+            }
 
-    .then(repositories => {
+            return response.json();
+        })
 
-      githubProjects.textContent = "";
+        .then(function (repositories) {
 
-      // Select repositories that are suitable for the portfolio
-      const selectedRepositories = repositories.filter(repository =>
-        ["my_portfolio", "hairstyle", "chuisokogardenfrontend"].includes(repository.name)
-      );
+            githubProjects.innerHTML = "";
 
-      selectedRepositories.forEach(repository => {
+            // Only show selected portfolio projects
+            const selectedRepositories = repositories.filter(function (repository) {
 
-        const project = document.createElement("div");
-        project.className = "project-card";
+                return [
+                    "my_portfolio",
+                    "hairstyle",
+                    "chuisokogardenfrontend"
+                ].includes(repository.name);
 
-        const content = document.createElement("div");
-        content.className = "project-content";
+            });
 
-        const title = document.createElement("h3");
-        title.textContent = repository.name;
+            selectedRepositories.forEach(function (repository) {
 
-        const description = document.createElement("p");
-        description.textContent =
-          repository.description || "Explore this project on GitHub.";
+                const project = document.createElement("div");
+                project.className = "project-card";
 
-        const tech = document.createElement("div");
-        tech.className = "tech";
+                const content = document.createElement("div");
+                content.className = "project-content";
 
-        const language = document.createElement("span");
-        language.textContent =
-          repository.language || "Web Development";
+                // Project title
+                const title = document.createElement("h3");
+                title.textContent = repository.name;
 
-        tech.appendChild(language);
+                // Project description
+                const description = document.createElement("p");
 
-        const link = document.createElement("a");
-        link.href = repository.html_url;
-        link.textContent = "View Repository";
-        link.className = "project-btn";
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
+                if (repository.description) {
+                    description.textContent = repository.description;
+                } else {
+                    description.textContent =
+                        "View this project on GitHub.";
+                }
 
-        content.appendChild(title);
-        content.appendChild(description);
-        content.appendChild(tech);
-        content.appendChild(link);
+                // Programming language
+                const tech = document.createElement("div");
+                tech.className = "tech";
 
-        project.appendChild(content);
+                const language = document.createElement("span");
+                language.textContent =
+                    repository.language || "Web Development";
 
-        githubProjects.appendChild(project);
-      });
+                tech.appendChild(language);
 
-      if (selectedRepositories.length === 0) {
-        githubProjects.textContent =
-          "No selected GitHub projects were found.";
-      }
+                // GitHub link
+                const link = document.createElement("a");
+                link.href = repository.html_url;
+                link.textContent = "View Repository";
+                link.className = "project-btn";
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
 
-    })
+                content.appendChild(title);
+                content.appendChild(description);
+                content.appendChild(tech);
+                content.appendChild(link);
 
-    .catch(error => {
+                project.appendChild(content);
+                githubProjects.appendChild(project);
+            });
 
-      githubProjects.textContent =
-        "Unable to load GitHub projects. Please try again later.";
+            // If none of the selected repositories are found
+            if (selectedRepositories.length === 0) {
 
-      console.error(error);
-    });
+                githubProjects.innerHTML =
+                    "<p>No selected GitHub projects were found.</p>";
+            }
+        })
+
+        .catch(function (error) {
+
+            console.error("GitHub API Error:", error);
+
+            githubProjects.innerHTML =
+                "<p>Unable to load GitHub projects. Please try again later.</p>";
+        });
 }
