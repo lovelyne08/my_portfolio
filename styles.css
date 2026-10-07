@@ -450,3 +450,60 @@ footer{
   color: white;
   transform: translateY(-2px);
 }
+
+/* GITHUB LIVE PROJECTS */
+
+.github-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:30px;
+    margin-top:30px;
+}
+
+.github-grid .project-card{
+    padding:0;
+    min-height:260px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+
+.github-grid .project-content{
+    padding:25px;
+}
+
+.github-grid .project-content h3{
+    font-size:22px;
+    word-break:break-word;
+}
+
+.github-grid .project-content p{
+    min-height:50px;
+}
+
+.github-grid .tech{
+    margin-top:15px;
+}
+
+.github-grid .project-btn{
+    margin-top:5px;
+}
+
+
+/* MOBILE GITHUB PROJECTS */
+
+@media(max-width:900px){
+
+    .github-grid{
+        grid-template-columns:repeat(2, 1fr);
+    }
+
+}
+
+@media(max-width:600px){
+
+    .github-grid{
+        grid-template-columns:1fr;
+    }
+
+}

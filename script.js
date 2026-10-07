@@ -45,3 +45,85 @@ if (form) {
     form.reset();
   });
 }
+
+// GitHub API - Live Projects
+
+const githubProjects = document.getElementById("githubProjects");
+
+if (githubProjects) {
+
+  fetch("https://api.github.com/users/Lovelyne08/repos")
+    .then(response => {
+
+      if (!response.ok) {
+        throw new Error("Unable to fetch GitHub projects.");
+      }
+
+      return response.json();
+    })
+
+    .then(repositories => {
+
+      githubProjects.textContent = "";
+
+      // Select repositories that are suitable for the portfolio
+      const selectedRepositories = repositories.filter(repository =>
+        ["my_portfolio", "hairstyle", "chuisokogardenfrontend"].includes(repository.name)
+      );
+
+      selectedRepositories.forEach(repository => {
+
+        const project = document.createElement("div");
+        project.className = "project-card";
+
+        const content = document.createElement("div");
+        content.className = "project-content";
+
+        const title = document.createElement("h3");
+        title.textContent = repository.name;
+
+        const description = document.createElement("p");
+        description.textContent =
+          repository.description || "Explore this project on GitHub.";
+
+        const tech = document.createElement("div");
+        tech.className = "tech";
+
+        const language = document.createElement("span");
+        language.textContent =
+          repository.language || "Web Development";
+
+        tech.appendChild(language);
+
+        const link = document.createElement("a");
+        link.href = repository.html_url;
+        link.textContent = "View Repository";
+        link.className = "project-btn";
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+
+        content.appendChild(title);
+        content.appendChild(description);
+        content.appendChild(tech);
+        content.appendChild(link);
+
+        project.appendChild(content);
+
+        githubProjects.appendChild(project);
+      });
+
+      if (selectedRepositories.length === 0) {
+        githubProjects.textContent =
+          "No selected GitHub projects were found.";
+      }
+
+    })
+
+    .catch(error => {
+
+      githubProjects.textContent =
+        "Unable to load GitHub projects. Please try again later.";
+
+      console.error(error);
+    });
+}
